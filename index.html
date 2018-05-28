@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>WorkerHandler</title>
+    <script src="./dist/WorkerHandler.js"></script>
+  </head>
+  <body>
+    <h1>Worker Handler</h1>
+    <script type="application/javascript">
+        let workerObj =  {
+            getPrimes: function(max) {
+                var sieve = [], i, j, primes = [];
+                max = max || 50;
+
+                for (i = 2; i <= max; ++i) {
+                    if (!sieve[i]) {
+                        // i has not been marked -- it is prime
+                        primes.push(i);
+                        for (j = i << 1; j <= max; j += i) {
+                            sieve[j] = true;
+                        }
+                    }
+                }
+                return primes;
+            },
+            getSum: function(numbers) {
+                return numbers.reduce( (acc, val) => acc + val)
+            },
+            testAsync: function(num) {
+                return new Promise( (resolve, reject) => {
+                    setTimeout( () => {
+                        resolve(num)
+                    }, 5000)
+                })
+            },
+            testFetch: function(url) {
+                return fetch(url).then(r => r.json()).catch(err => err)
+            }
+        };
+
+        const w = new WorkerHandler(workerObj);
+
+        w.getPrimes(10000000).then( r => console.log(r)).catch( e => console.error(e) )
+        
+        w.getSum([11,223,334,546,554,87698,775,684,89]).then( r => console.log(r)).catch( e => console.error(e) )
+                    
+        let w2 = new WorkerHandler({
+            sum: function(baseSum) {
+                return this.array ? this.array.reduce((a,b) => a+b, baseSum || 0) : (baseSum || 0)
+            }
+        });
+
+        w2.set('obj', {a: 1, b: 2}).then( r => console.log(r))
+        w2.get('obj').then( r => console.log(r))
+        w2.sum().then( r => console.log(r))
+        w2.set('array', [1,2,3,4,5]).then( r => console.log(r))
+        w2.sum().then( r => console.log(r))
+    </script>
+  </body>
+</html>
