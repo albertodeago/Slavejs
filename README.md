@@ -1,8 +1,8 @@
-# Slavejs
+### Slavejs
 
 Slavejs is a wrapper of Web Workers to make it more "natural" to work with. Support both sync and async operation and return a promise 'hiding' the postMessage and onMessage that Web Workers works with.
 
-### How to use it
+## How to use it
 
 ```
     let workerObj =  {
@@ -115,7 +115,7 @@ www.set('arrayProp', [1,2,3,4,5])
 
 ```
 
-### Installation
+## Installation
 
 Clone this repository locally...
 
@@ -137,7 +137,7 @@ $ npm run build
 open in a browser index.test.html
 ```
 
-### Start Dev Server
+## Start Dev Server
 
 Start a local Web Server.
 
@@ -145,7 +145,7 @@ Start a local Web Server.
 $ npm run dev
 ```
 
-### Build Prod Version
+## Build Prod Version
 
 Create a Production version of your project.
 
@@ -153,16 +153,16 @@ Create a Production version of your project.
 $ npm run build
 ```
 
-### Limitations
+## Limitations
 
 Does not work with Classes, only object containing functions. (You can use getter and setter methods exposed to get and set property in the web worker. This will retrieve or set this[property] in the web worker itself. Can be useful to use that property in the methods you pass to him.)
 The prototype of the object passed in the constructor will be ignored and not 'proxied' to the Web Worker
 A lot more... If you find a feature that you would like it open an issue or make a PR
 
-### Test
+## Test
 
 Open up the index.test.html file in the browser, test are ran with Mocha in the browser.
 
-### Compatibility
+## Compatibility
 
 Any modern browser.
