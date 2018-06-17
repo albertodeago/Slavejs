@@ -1,11 +1,11 @@
-import WebWorkerWrapper from './worker-utils';
+import Slave from './worker-utils';
 
 describe('Web Worker Wrapper', () => {
-    it('Create a WebWorkerWrapper', () => {
+    it('Create a Slave', () => {
         const obj = {}
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
         
-        expect(www instanceof WebWorkerWrapper).to.equal(true)
+        expect(www instanceof Slave).to.equal(true)
     });
 
     it('Accept a function that expect more than 1 parameter', () => {
@@ -14,7 +14,7 @@ describe('Web Worker Wrapper', () => {
                 return  a + b
             }
         }
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
 
         return www.sum(1,2).then( (result) => {
             expect(result).to.equal(3)
@@ -27,7 +27,7 @@ describe('Web Worker Wrapper', () => {
                 return  arr.reduce((a, b) => a + b)
             }
         }
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
 
         return www.reduce([1,2,3,4]).then( (result) => {
             expect(result).to.equal(10)
@@ -38,7 +38,7 @@ describe('Web Worker Wrapper', () => {
         const obj = {
             obj: (obj) => obj
         }
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
 
         return www.obj({a:1}).then( (result) => {
             expect(typeof result).to.equal('object');
@@ -48,7 +48,7 @@ describe('Web Worker Wrapper', () => {
 
     /*** GETTER / SETTER ***/
     it('Set a property in the worker', () => {
-        const www = new WebWorkerWrapper({})
+        const www = new Slave({})
 
         return www.set('prop', 42).then( result => {
             expect(result).to.equal(42);
@@ -56,7 +56,7 @@ describe('Web Worker Wrapper', () => {
     });
 
     it('Get a property from the worker', () => {
-        const www = new WebWorkerWrapper({});
+        const www = new Slave({});
 
         return www.set('prop', 42).then( r => {
             return www.get('prop').then( result => {
@@ -66,7 +66,7 @@ describe('Web Worker Wrapper', () => {
     });
 
     it('Get a property and use the fallback value if not defined in the worker', () => {
-        const www = new WebWorkerWrapper({});
+        const www = new Slave({});
 
         return www.get('prop', 'fallback').then( result => {
             expect(result).to.equal('fallback');
@@ -74,7 +74,7 @@ describe('Web Worker Wrapper', () => {
     });
 
     it('Get a property and don\'t use the fallback value if not defined in the worker', () => {
-        const www = new WebWorkerWrapper({});
+        const www = new Slave({});
 
         return www.set('prop', 42).then( r => {
             return www.get('prop', 'fallback').then( result => {
@@ -84,7 +84,7 @@ describe('Web Worker Wrapper', () => {
     });
 
     it('Set a property and don\'t overwrite it if already defined in the worker', () => {
-        const www = new WebWorkerWrapper({});
+        const www = new Slave({});
 
         return www.set('prop', 42).then( r => {
             return www.set('prop', 'newVal').then( result => {
@@ -94,7 +94,7 @@ describe('Web Worker Wrapper', () => {
     });
 
     it('Set a property and overwrite the one in the worker if asked to', () => {
-        const www = new WebWorkerWrapper({});
+        const www = new Slave({});
 
         return www.set('prop', 42).then( r => {
             return www.set('prop', 'newVal', true).then( result => {
@@ -115,7 +115,7 @@ describe('Web Worker Wrapper', () => {
                 })
             }
         }
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
 
         return www.asyncTask('Godzilla').then( (result) => {
             expect(result).to.equal('Godzilla');
@@ -124,7 +124,7 @@ describe('Web Worker Wrapper', () => {
     
     it('Can use Fetch API in the worker making a simple GET request', () => {
         const obj = {};
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
 
         return www.fetch('https://jsonplaceholder.typicode.com/posts/1').then( (result) => {
             expect(result.id).to.equal(1);
@@ -133,7 +133,7 @@ describe('Web Worker Wrapper', () => {
     
     it('Can use Fetch API in the worker making a POST request with some headers set', () => {
         const obj = {}
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
 
         const opt = {
             method: 'POST',
@@ -154,7 +154,7 @@ describe('Web Worker Wrapper', () => {
     
     it('Can use Fetch API in the worker making a PUT request', () => {
         const obj = {}
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
         const opt = {
             method: 'PUT',
             body: JSON.stringify({
@@ -173,7 +173,7 @@ describe('Web Worker Wrapper', () => {
 
     it('Can set default Fetch options and use those in every request', () => {
         const obj = {}
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
         const opt = {
             method: 'POST',
             body: JSON.stringify({
@@ -197,7 +197,7 @@ describe('Web Worker Wrapper', () => {
 
     it('Can set default Fetch options and then override some by specifying them', () => {
         const obj = {}
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
         const opt = {
             method: 'POST',
             headers: {
@@ -226,7 +226,7 @@ describe('Web Worker Wrapper', () => {
                 throw new Error("something's wrong");
             }
         }
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
         
         return www.fun().then( r => {
             expect("To never").to.equal("pass here"); // it should never pass here
@@ -237,7 +237,7 @@ describe('Web Worker Wrapper', () => {
 
     it('Handle errors code 4** in fetch requests', () => {
         const obj = {}
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
         
         return www.fetch('http://httpstat.us/400')
             .then( res => expect("To never").to.equal("pass here"))
@@ -246,7 +246,7 @@ describe('Web Worker Wrapper', () => {
 
     it('Handle errors code 404 in fetch requests', () => {
         const obj = {}
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
         
         return www.fetch('http://httpstat.us/404')
             .then( res => expect("To never").to.equal("pass here"))
@@ -255,7 +255,7 @@ describe('Web Worker Wrapper', () => {
 
     it('Handle errors code 5** in fetch requests', () => {
         const obj = {}
-        const www = new WebWorkerWrapper(obj)
+        const www = new Slave(obj)
         
         return www.fetch('http://httpstat.us/500')
             .then( res => expect("To never").to.equal("pass here"))

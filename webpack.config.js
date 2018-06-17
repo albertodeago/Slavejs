@@ -17,9 +17,9 @@ module.exports = (env, options) => {
       ]
     },
     output: {
-      library: "WorkerHandler",
+      library: "Slave",
       libraryTarget: "umd",
-      filename: "WorkerHandler.js",
+      filename: "Slave.js",
       libraryExport: "default"
     },
     devServer: {

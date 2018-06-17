@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>WorkerHandler</title>
-    <script src="./dist/WorkerHandler.js"></script>
+    <script src="./dist/Slave.js"></script>
   </head>
   <body>
     <h1>Worker Handler</h1>
@@ -41,13 +41,13 @@
             }
         };
 
-        const w = new WorkerHandler(workerObj);
+        const w = new Slave(workerObj);
 
         w.getPrimes(10000000).then( r => console.log(r)).catch( e => console.error(e) )
         
         w.getSum([11,223,334,546,554,87698,775,684,89]).then( r => console.log(r)).catch( e => console.error(e) )
                     
-        let w2 = new WorkerHandler({
+        let w2 = new Slave({
             sum: function(baseSum) {
                 return this.array ? this.array.reduce((a,b) => a+b, baseSum || 0) : (baseSum || 0)
             }
