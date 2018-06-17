@@ -52,22 +52,6 @@ let endStr = `
 	}   // end of function({data})
 `;
 
-// example of fetch options
-// return fetch(url, {
-//     body: JSON.stringify(data), // must match 'Content-Type' header
-//     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-//     credentials: 'same-origin', // include, same-origin, *omit
-//     headers: {
-//       'user-agent': 'Mozilla/4.0 MDN Example',
-//       'content-type': 'application/json'
-//     },
-//     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-//     mode: 'cors', // no-cors, cors, *same-origin
-//     redirect: 'follow', // *manual, follow, error
-//     referrer: 'no-referrer', // *client, no-referrer
-//   })
-
-
 class WorkerHandler {
 
 	constructor(workerFun) {
@@ -120,7 +104,6 @@ class WorkerHandler {
 	}
 
 	set(property, value, overwrite) {
-		// console.log("Set", property, value, overwrite);
 		const requestId = this.createRandomUId();
 		this.requests[requestId] = new Deferred();
 
@@ -167,8 +150,6 @@ class WorkerHandler {
 	}
 
 	_proxyMethod(originalMethodName, callback, ...args) {
-		// console.log("method wrapper of " + originalMethodName, args);
-
 		const requestId = this.createRandomUId();
 		this.requests[requestId] = new Deferred();
 

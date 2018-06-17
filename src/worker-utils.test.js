@@ -1,20 +1,5 @@
 import WebWorkerWrapper from './worker-utils';
 
-// const a = async function() { 
-//     return new Promise((resolve, reject) => {
-//         setTimeout(() => {
-//             resolve(42);
-//         }, 1000);
-//     });
-// }
-
-// it('works with async/await', async () => {
-//     expect.assertions(1);
-//     const data = await a();
-//     expect(data).toEqual(42);
-// });
-
-
 describe('Web Worker Wrapper', () => {
     it('Create a WebWorkerWrapper', () => {
         const obj = {}
