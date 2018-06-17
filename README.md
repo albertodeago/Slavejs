@@ -1,4 +1,4 @@
-### Slavejs
+# Slavejs
 
 Slavejs is a wrapper of Web Workers to make it more "natural" to work with. Support both sync and async operation and return a promise 'hiding' the postMessage and onMessage that Web Workers works with.
 
@@ -31,7 +31,7 @@ Slavejs is a wrapper of Web Workers to make it more "natural" to work with. Supp
         .then( res => console.log(res))         // myParam (after 2,5 seconds)
         .catch( err => console.error(err))
 ```
-# Get / Set properties
+### Get / Set properties
 ```
 // API
 // get(prop, defaultValue)
@@ -55,14 +55,14 @@ www.set('arrayProp', [1,2,3,4,5])
 
 ```
 
-# Error handling
+### Error handling
 ```
     www.errorExample()
         .then( () => {})
         .catch( err => console.error(err))      // "Error: oops" -> error are returned as Strings
 ```
 
-# You can also use fetch in the webworker
+### You can also use fetch in the webworker
 ```
     www.fetch('https://jsonplaceholder.typicode.com/posts/1')
         .then( res => console.log(res))         // res will be the response already parsed by .json(), so the object we are expecting
@@ -73,7 +73,7 @@ www.set('arrayProp', [1,2,3,4,5])
         .catch( err => console.error(err))      // err will be the string that contains the status code of the response. In this case "Error: Internal Server Error"
 ```
 
-# You can pass an optional object with the options for fetch like this
+### You can pass an optional object with the options for fetch like this
 ```
     const opt = { 
         method: 'POST',
@@ -90,7 +90,7 @@ www.set('arrayProp', [1,2,3,4,5])
         .then( res => console.log(res))
 ```
 
-# or you can even set the default options for fetch and always use that ones
+### or you can even set the default options for fetch and always use that ones
 ```
     const opt = {
         method: 'POST',
@@ -105,7 +105,7 @@ www.set('arrayProp', [1,2,3,4,5])
         })
 ```
 
-# If you set the default ones you can always pass the options to override or extend the default setted before
+### If you set the default ones you can always pass the options to override or extend the default setted before
 ```
     www.setFetchOpt(myOpt)
         .then( () => {
