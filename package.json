@@ -3,7 +3,7 @@
   "description": "A web worker wrapper to abuse them more confortably.",
   "author": "Alberto De Agostini (https://github.com/albertodeago)",
   "homepage": "https://github.com/albertodeago/Slavejs",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "repository": {
     "type": "git",
