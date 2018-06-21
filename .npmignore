@@ -1,5 +1,7 @@
 .npm
 *.log
-node_modules
-src
-webpack.config.js
+./node_modules
+./src
+./webpack.config.js
+index.html
+.gitattributes

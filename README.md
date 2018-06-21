@@ -2,10 +2,22 @@
 
 Slavejs is a wrapper of Web Workers to make it more "natural" to work with. Support both sync and async operation and return a promise 'hiding' the postMessage and onMessage that Web Workers works with.
 
+## How to import / install
+
+You can just download the bundle from the dist folder from the master branch, host it and put a script pointing to that file or you can just type
+
+```
+    npm install --save slavejs
+```
+and then in your source files
+```
+    import Slave from 'slavejs/dist/Slave';
+```
+
 ## How to use it
 
 ```
-    let workerObj =  {
+    let slaveObj =  {
         funToExecuteByWorker: function(param) {
             return 'The answer of life is ' + param || 42
         },
@@ -21,34 +33,40 @@ Slavejs is a wrapper of Web Workers to make it more "natural" to work with. Supp
         }
     };
 
-    const www = new WorkerHandler(workerObj)
+    const slave = new Slave(workerObj)
     
-    www.funToExecuteByWorker(41)
+    slave.funToExecuteByWorker(41)
         .then( res => console.log(res))         // The answer of life is 41
         .catch( err => console.error(err))
 
-    www.asyncTask('myParam')
+    slave.asyncTask('myParam')
         .then( res => console.log(res))         // myParam (after 2,5 seconds)
         .catch( err => console.error(err))
+
+    // obviously you can use async/await
+    async function fun() {
+        const res = await slave.asyncTask('await is awesome');
+    }
 ```
+
 ### Get / Set properties
 ```
 // API
 // get(prop, defaultValue)
 // set(prop, value, overwrite)
 
-www.get('myProp').then( r => console.log(r))                             // undefined
-www.get('myProp', 'my-default-value').then( r => console.log(r))         // 'my-default-value'
-www.set('myProp', 'my-setted-value').then( r => console.log(r))          // 'my-setted-value'
-www.get('myProp', 'my-default-value').then( r => console.log(r))         // 'my-setted-value'
-www.set('myProp', 'second-value', false).then( r => console.log(r))      // 'my-setted-value'
-www.get('myProp').then( r => console.log(r))                             // 'my-setted-value'
-www.set('myProp', 'overrider-value', true).then( r => console.log(r))    // 'overrider-value'
-www.get('myProp').then( r => console.log(r))                             // 'overrider-value'
+slave.get('myProp').then( r => console.log(r))                             // undefined
+slave.get('myProp', 'my-default-value').then( r => console.log(r))         // 'my-default-value'
+slave.set('myProp', 'my-setted-value').then( r => console.log(r))          // 'my-setted-value'
+slave.get('myProp', 'my-default-value').then( r => console.log(r))         // 'my-setted-value'
+slave.set('myProp', 'second-value', false).then( r => console.log(r))      // 'my-setted-value'
+slave.get('myProp').then( r => console.log(r))                             // 'my-setted-value'
+slave.set('myProp', 'overrider-value', true).then( r => console.log(r))    // 'overrider-value'
+slave.get('myProp').then( r => console.log(r))                             // 'overrider-value'
 
 // You can set also objects or arrays as properties.
-www.set('objProp', {a: 'foo', bar: 'baz', answer: 42})
-www.set('arrayProp', [1,2,3,4,5])
+slave.set('objProp', {a: 'foo', bar: 'baz', answer: 42})
+slave.set('arrayProp', [1,2,3,4,5])
 
 // let's do something more useful. (Code for the Demo TODO)
 
@@ -57,18 +75,18 @@ www.set('arrayProp', [1,2,3,4,5])
 
 ### Error handling
 ```
-    www.errorExample()
+    slave.errorExample()
         .then( () => {})
         .catch( err => console.error(err))      // "Error: oops" -> error are returned as Strings
 ```
 
 ### You can also use fetch in the webworker
 ```
-    www.fetch('https://jsonplaceholder.typicode.com/posts/1')
+    slave.fetch('https://jsonplaceholder.typicode.com/posts/1')
         .then( res => console.log(res))         // res will be the response already parsed by .json(), so the object we are expecting
         .catch( err => console.error(err))
 
-    www.fetch('http://httpstat.us/400')
+    slave.fetch('http://httpstat.us/400')
         .then( res => console.log(res))
         .catch( err => console.error(err))      // err will be the string that contains the status code of the response. In this case "Error: Internal Server Error"
 ```
@@ -86,7 +104,7 @@ www.set('arrayProp', [1,2,3,4,5])
             "Content-type": "application/json; charset=UTF-8"
         }
     }
-    www.fetch(myUrl, opt)
+    slave.fetch(myUrl, opt)
         .then( res => console.log(res))
 ```
 
@@ -98,24 +116,24 @@ www.set('arrayProp', [1,2,3,4,5])
             "Content-type": "application/json; charset=UTF-8"
         }
     }
-    www.setFetchOpt(myOpt)
+    slave.setFetchOpt(myOpt)
         .then( () => {
-            www.fetch(myUrl)    // will be a POST with Content-type header
+            slave.fetch(myUrl)    // will be a POST with Content-type header
                 .then( res => console.log(res))
         })
 ```
 
 ### If you set the default ones you can always pass the options to override or extend the default setted before
 ```
-    www.setFetchOpt(myOpt)
+    slave.setFetchOpt(myOpt)
         .then( () => {
-            www.fetch(myUrl, {method: 'GET'})    // will be a GET with Content-type header
+            slave.fetch(myUrl, {method: 'GET'})    // will be a GET with Content-type header
                 .then( res => console.log(res))
         })
 
 ```
 
-## Installation
+## Want to contribute?
 
 Clone this repository locally...
 
